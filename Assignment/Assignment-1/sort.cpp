@@ -212,4 +212,3 @@ int** create_random_ivector(int n, int m, bool small)
 
   return iv_array;
 }
-
