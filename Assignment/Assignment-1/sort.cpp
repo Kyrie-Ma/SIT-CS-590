@@ -67,13 +67,13 @@ void insertion_sort_im(int **A, int n, int l, int r)
     A[i+1] = key;
     precomputesLengthVector[i+1] = tempKey;
   }
-  delete precomputesLengthVector;
+  delete precomputesLengthVector; //release
 }
 
 /*
 *   TO IMPLEMENT: Improved Merge Sort for problem 2.
 */
-void merge_sort_rec(int **A, int **B, int Left, int Right, int n)
+void merge_sort_rec(int **A, int **tempVector, int Left, int Right, int n)
 {
   if (Left >= Right)
   {
@@ -84,53 +84,55 @@ void merge_sort_rec(int **A, int **B, int Left, int Right, int n)
   int Right1 = mid;
   int Left2 = mid + 1;
   int Right2 = Right;
-  merge_sort_rec(A, B, Left1, Right1, n);
-  merge_sort_rec(A, B, Left2, Right2, n);
+  merge_sort_rec(A, tempVector, Left1, Right1, n);
+  merge_sort_rec(A, tempVector, Left2, Right2, n);
   int temp = Left;
   while (Left1 <= Right1 && Left2 <= Right2)
   {
     int sum1 = ivector_length(A[Left1], n);
     int sum2 = ivector_length(A[Left2], n);
+    //check result
     //cout << "ALeft1: " << *A[Left1] <<" and ALeft2: " << *A[Left2] << endl;
     //cout << "sum1: " << sum1 <<" and sum2: " << sum2 << endl;
     if (sum1 < sum2)
     {
-      B[temp++] = A[Left1++];
+      tempVector[temp++] = A[Left1++];
     }
     else
     {
-      B[temp++] = A[Left2++];
+      tempVector[temp++] = A[Left2++];
     }
   }
+  //check result
   //int o = 0;
   //for(o = 0; o < m; o++)
   //{
-    //cout << "B[m]: " << *B[o] << endl;
+    //cout << "tempVector[o]: " << *tempVector[o] << endl;
   //}
   while (Left1 <= Right1)
   {
-    B[temp++] = A[Left1++];
+    tempVector[temp++] = A[Left1++];
   }
   while (Left2 <= Right2)
   {
-    B[temp++] = A[Left2++];
+    tempVector[temp++] = A[Left2++];
   }
   for (temp = Left; temp <= Right; temp++)
   {
-    A[temp] = B[temp];
+    A[temp] = tempVector[temp];
   }
 }
 
 void merge_sort(int **A, int n, int l, int r)
 {
-  int **B;
-  B = new int *[r + 1];
+  int **tempVector;
+  tempVector = new int *[r + 1];
   for (int i = 0; i < r + 1; i++)
   {
-    B[i] = new int[n];
+    tempVector[i] = new int[n];
   }
-  merge_sort_rec(A, B, l, r, n);
-  delete B;
+  merge_sort_rec(A, tempVector, l, r, n);
+  delete tempVector; //release
 }
 
 /*
