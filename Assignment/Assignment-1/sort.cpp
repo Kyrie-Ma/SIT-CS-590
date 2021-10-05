@@ -44,15 +44,13 @@ void insertion_sort(int** A, int n, int l, int r)
 */
 void insertion_sort_im(int **A, int n, int l, int r)
 {
+  int i, *key, tempKey;
   int * precomputesLengthVector;
   precomputesLengthVector = new int [r-l+1];
-  for(int i = 0; i<=r; i++)
+  for(int i = 0; i<=r; i++)  //precomputes length before sort
   {
     precomputesLengthVector[i] = ivector_length(A[i], n);
   }
-  int i;
-  int *key;
-  int tempKey;
   for (int j = l+1; j<=r; j++)
   {
     key = A[j];
@@ -79,6 +77,7 @@ void merge_sort_rec(int **A, int **tempVector, int Left, int Right, int n)
   {
     return;
   }
+  int temp = Left;
   int mid = ((Right - Left) / 2) + Left;
   int Left1 = Left;
   int Right1 = mid;
@@ -86,7 +85,6 @@ void merge_sort_rec(int **A, int **tempVector, int Left, int Right, int n)
   int Right2 = Right;
   merge_sort_rec(A, tempVector, Left1, Right1, n);
   merge_sort_rec(A, tempVector, Left2, Right2, n);
-  int temp = Left;
   while (Left1 <= Right1 && Left2 <= Right2)
   {
     int sum1 = ivector_length(A[Left1], n);
@@ -212,3 +210,4 @@ int** create_random_ivector(int n, int m, bool small)
 
   return iv_array;
 }
+
